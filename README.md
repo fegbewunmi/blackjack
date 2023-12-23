@@ -1,2 +1,2 @@
-# blackjack
+# Blackjack
 Blackjack Game in React

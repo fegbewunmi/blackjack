@@ -1,0 +1,91 @@
+.deck{
+    display : flex;
+    flex-direction: row;
+    gap: 4%;
+}
+
+
+.cardBody {
+    height: 115px;
+    width: 85px;
+    background-color: #4b3f3f;
+    display : flex;
+    flex-direction: column;
+    gap: 4%;
+  }
+
+.cardNumber {
+    font-size: medium;
+    position: relative;
+    top: 5px;
+    left: -28px;
+}
+
+.caShape {
+display : flex;
+/* align-content: center;
+align-items:center; */
+flex-wrap: wrap;
+/* flex-direction: column; */
+justify-content: center;
+/* margin: 0, auto; */
+/* flex-basis: 20% */
+}
+
+.one{
+    font-size: xx-large;
+}
+
+.two{
+    font-size: large;
+    width: 80px;  
+    height: 35px; 
+}
+
+.three{
+    font-size: large;
+    width: 90px;  
+    height: 25px; 
+}
+
+.four{
+    font-size: large;
+    width:35px;  
+    height: 45px; 
+}
+
+.five{
+    font-size: large;
+    width:35px;  
+    height: 25px; 
+}
+
+.six{
+    font-size: large;
+    width:35px;  
+    height: 25px; 
+}
+
+.seven{
+    font-size: medium;
+    width:25px;  
+    height: 25px; 
+}
+
+.eight{
+    font-size: medium;
+    width:25px;  
+    height: 25px; 
+}
+
+.nine{
+    font-size: medium;
+    width:25px;  
+    height: 22px; 
+}
+
+.ten{
+    font-size: medium;
+    width:25px;  
+    height: 18px; 
+}

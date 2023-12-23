@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect} from 'react'
 import '../styles/cardDeck.css'
 
@@ -28,16 +27,18 @@ const CardDeck = () => {
         })
         return deck
     }
-    // const [fullDeck, setFullDeck] = useState(createDeck(cardValues, cardSuits))
-    const fullDeck = createDeck(cardValues, cardSuits)  
-   
-    const getRandCard = () =>{
-        return (fullDeck[(Math.floor(Math.random() * fullDeck.length))])
+    const [fullDeck, setFullDeck] = useState(createDeck(cardValues, cardSuits))
+    const [topCard, setTopCard] = useState([])
+
+    const shuffleCards = () => {setFullDeck(fullDeck.sort(() => Math.random() - 0.5))};
+    const dealCard = () => {
+        setTopCard(fullDeck[0])
+        setFullDeck(fullDeck.slice(1));
     }
-    const randomCard = getRandCard()
-    const randomCard2 = getRandCard()
+    // const getRandCard = () =>{
+    //     return (fullDeck[(Math.floor(Math.random() * fullDeck.length))])
+    // }
    
-    // const cards2 = 
     const cardFaces = (val, vtype) =>{ 
         const letters = ['J', 'Q', 'K']
         if (letters.includes(val[0])){
@@ -57,25 +58,38 @@ const CardDeck = () => {
         )
             }
     }
+    useEffect(() => {
+        shuffleCards()
+    }, [])
+
     return (
         <div> 
             <h1> Deck of Cards </h1>
             <div className='deck'> 
             <div className='cardBody'>
                 <div className='cardNumber'>
-                    <div> {Object.values(randomCard)} </div>
-                    <div style={{'fontSize':'10px'}}>  {Object.keys(randomCard)} </div> 
+                    <div> {Object.values(topCard)} </div>
+                    <div style={{'fontSize':'10px'}}>  {Object.keys(topCard)} </div> 
                     </div>
-                <div>{cardFaces(Object.values(randomCard), Object.keys(randomCard))}</div>
+                <div>{cardFaces(Object.values(topCard), Object.keys(topCard))}</div>
             </div>
-            <div className='cardBody'>
+            {/* <div className='cardBody'>
                 <div className='cardNumber'>
                     <div> {Object.values(randomCard2)} </div>
                     <div style={{'fontSize':'10px'}}> {Object.keys(randomCard2)}</div> 
                     </div>
                 <div>{cardFaces(Object.values(randomCard2), Object.keys(randomCard2))}</div>
-                </div>
+                </div> */}
+    
+            {/* <div className='cardBody'>
+                <div className='cardNumber'>
+                    <div> {Object.values(randomCard3)} </div>
+                    <div style={{'fontSize':'10px'}}> {Object.keys(randomCard3)}</div> 
+                    </div>
+                <div>{cardFaces(Object.values(randomCard3), Object.keys(randomCard3))}</div>
+                </div> */}
             </div>
+            <button onClick={dealCard}>Deal</button>
         </div>
     )
 }

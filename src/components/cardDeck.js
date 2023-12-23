@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import '../styles/cardDeck.css'
 
 const CardDeck = () => {
@@ -16,21 +16,46 @@ const CardDeck = () => {
         '9' : 'nine',
         '10' : 'ten'
     }
-    const cardShapes = ['hearts', 'diamonds', 'spades', 'clubs']
-    const [cards, setCards] = useState([
-        { suit: 'hearts', value: 'A' },
-        { suit: 'hearts', value: '2' },
-        { suit: 'hearts', value: '3' },
-    ])
+    const cardSuits = ['\u2665', '\u2666', '\u2660', '\u2663']
+    const createDeck = (values, suits) => {
+        let deck = []
+        suits.forEach((suit) => {
+            values.forEach((value) => {
+                let dict = {}
+                dict[suit] = value
+                deck.push(dict)
+            })
+        })
+        return deck
+    }
+    // const [fullDeck, setFullDeck] = useState(createDeck(cardValues, cardSuits))
+    const fullDeck = createDeck(cardValues, cardSuits)  
+   
+    const getRandCard = () =>{
+        return (fullDeck[(Math.floor(Math.random() * fullDeck.length))])
+    }
+    const randomCard = getRandCard()
+    const randomCard2 = getRandCard()
+   
     // const cards2 = 
-    const cardTypes = (val, vtype) =>{ 
-        return(
-
+    const cardFaces = (val, vtype) =>{ 
+        const letters = ['J', 'Q', 'K']
+        if (letters.includes(val[0])){
+            return (
             <div className="caShape"> 
-            {Array(val)
+            {Array(1)
+            .fill(<div className={cardStyles[val]}> {vtype} </div>)}
+            </div>)
+        }
+        else {
+            const numVal = (val=='A') ? 1 : Number(val) 
+        return(
+            <div className="caShape"> 
+            {Array(numVal)
             .fill(<div className={cardStyles[val]}> {vtype} </div>)}
             </div>
         )
+            }
     }
     return (
         <div> 
@@ -38,30 +63,19 @@ const CardDeck = () => {
             <div className='deck'> 
             <div className='cardBody'>
                 <div className='cardNumber'>
-                    <div> {cardValues[1]} </div>
-                    <div style={{'font-size':'10px'}}>  &spades; </div> </div>
-                <span class="suit">&spades;</span>
+                    <div> {Object.values(randomCard)} </div>
+                    <div style={{'fontSize':'10px'}}>  {Object.keys(randomCard)} </div> 
+                    </div>
+                <div>{cardFaces(Object.values(randomCard), Object.keys(randomCard))}</div>
             </div>
             <div className='cardBody'>
                 <div className='cardNumber'>
-                    <div> {cardValues[0]} </div>
-                    <div style={{'font-size':'10px'}}>  &hearts; </div> 
+                    <div> {Object.values(randomCard2)} </div>
+                    <div style={{'fontSize':'10px'}}> {Object.keys(randomCard2)}</div> 
                     </div>
-                <div>{cardTypes('A', '\u2665')}</div>
-            </div>
-            <div className='cardBody'>
-                <div className='cardNumber'>
-                    <div> {cardValues[8]} </div>
-                    <div style={{'font-size':'10px'}}>  &hearts; </div> 
-                    </div>
-                <div>{cardTypes(9, '\u2660')}</div>
+                <div>{cardFaces(Object.values(randomCard2), Object.keys(randomCard2))}</div>
                 </div>
             </div>
-            {/* <ul>
-        {cards.map((card) => (
-          <li key={card.suit + card.value}>{card.suit} {card.value}</li>
-        ))}
-      </ul> */}
         </div>
     )
 }

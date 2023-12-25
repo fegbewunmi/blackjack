@@ -1,52 +1,83 @@
 import React, { useState, useEffect, useRef } from "react";
-import PlayersHand from "./playersHand";
-import DealersHand from "./dealersHand";
 import * as Constants from "../utils";
+import Hand from "./hand";
+import GameActions from "./actions";
 
 const BlackJack = () => {
   const [fullDeck, setFullDeck] = useState(
     Constants.createDeck(Constants.cardValues, Constants.cardSuits),
   );
-  const [topCard, setTopCard] = useState({});
-  const [playFirst, setPlayFirst] = useState([fullDeck[0], fullDeck[1]]);
-  const [dealerFirst, setDealerFirst] = useState([]);
   const [total, setTotal] = useState(0);
+  const [gameState, setGameState] = useState("init");
+  const [dealerCards, setDealerCards] = useState([]);
+  const [playerCards, setPlayerCards] = useState([]);
+  const [dealerCount, setDealerCount] = useState(0);
+  const [playerCount, setPlayerCount] = useState(0);
 
   const shuffleCards = () => {
     setFullDeck(fullDeck.sort(() => Math.random() - 0.5));
   };
-  const dealCard = () => {
-    setTopCard(fullDeck[0]);
-    setFullDeck(fullDeck.slice(1));
+  
+  const dealCard = (dealType) => {
+    if (fullDeck.length > 0) {
+      const randomIndex = Math.floor(Math.random() * fullDeck.length);
+      const card = fullDeck[randomIndex];
+      const faceValue = Constants.faceValues(Object.values(card)[0])
+
+      fullDeck.splice(randomIndex, 1);
+      setFullDeck([...fullDeck]);
+
+      switch (dealType) {
+        case "player":
+          playerCards.push({ value: card, hidden: false });
+          setPlayerCards([...playerCards]);
+          break;
+        case "dealer":
+          dealerCards.push({ value: card, hidden: false });
+          setDealerCards([...dealerCards]);
+          break;
+        case "hidden":
+          dealerCards.push({ value: card, hidden: true });
+          setDealerCards([...dealerCards]);
+          break;
+        default:
+          break;
+      }
+    } else {
+      alert("All cards have been drawn");
+    }
   };
-  //   const refreshGame = () => {
-  //     shuffleCards();
-  //     window.location.reload(false);
-  //   };
 
   useEffect(() => {
-    shuffleCards();
-    setPlayFirst([fullDeck[0], fullDeck[1]]);
-    const firstValue = Constants.faceValues(Object.values(fullDeck[0])[0]);
-    const secondValue = Constants.faceValues(Object.values(fullDeck[1])[0]);
-    setTotal(firstValue + secondValue);
-    setDealerFirst([fullDeck[2], fullDeck[3]]);
-    setFullDeck(fullDeck.slice(4));
-  }, []);
+    setPlayerCount(Constants.totalValues(playerCards))
+  }, [playerCards]);
+
+  useEffect(() => {
+    setDealerCount(Constants.totalValues(dealerCards))
+  }, [dealerCards]);
+
+
+  const hit = () => {
+    dealCard('player')
+  }
+
+  useEffect(() => {
+    if (gameState === "init") {
+      dealCard("player");
+      dealCard("player");
+      dealCard("dealer");
+      dealCard("hidden");
+      setGameState("userTurn");
+      //   setMessage(Message.hitStand);
+    }
+  }, [gameState]);
 
   return (
     <div>
       <h1> Welcome to Blackjack </h1>
-      <DealersHand />
-      <PlayersHand
-        fullDeck={fullDeck}
-        topCard={topCard}
-        dealCard={dealCard}
-        playFirst={playFirst}
-        total={total}
-      />
-      {/* <button onClick={dealCard}>Hit</button> */}
-      {/* <button onClick={refreshGame}>New Game</button> */}
+      <Hand title={`Dealer's Hand (${dealerCount})`} cards={dealerCards} />
+      <Hand title={`Player's Hand (${playerCount})`} cards={playerCards} />
+      <GameActions hitEvent={hit} />
     </div>
   );
 };

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
-
 const GameActions = ({ gameState, hitEvent }) => {
   const [amount, setAmount] = useState(10);
-  
+
   const setup = () => {
     // if (gameState === 0) {
     //   return (
@@ -17,20 +16,15 @@ const GameActions = ({ gameState, hitEvent }) => {
     //   );
     // }
     // else {
-      return (
-        <div>
-          <button onClick={() => hitEvent()}>Hit</button>
-          {/* <button onClick={() => standEvent()} disabled={buttonState.standDisabled} className={styles.button}>Stand</button>
+    return (
+      <div>
+        <button onClick={() => hitEvent()}>Hit</button>
+        {/* <button onClick={() => standEvent()} disabled={buttonState.standDisabled} className={styles.button}>Stand</button>
           <button onClick={() => resetEvent()} disabled={buttonState.resetDisabled} className={styles.button}>Reset</button> */}
-        </div>
-      );
-    }
-  
+      </div>
+    );
+  };
 
-  return (
-    <>
-      {setup()}
-    </>
-  );
-}
+  return <>{setup()}</>;
+};
 export default GameActions;

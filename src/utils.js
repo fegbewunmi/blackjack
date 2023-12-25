@@ -13,33 +13,32 @@ export const faceValues = (card) => {
 export const totalValues = (cards) => {
   let total = 0;
   cards.forEach((card) => {
-    if (card.hidden === false && Object.values(card.value)[0] !== 'A') {
-        total += letters.includes(Object.values(card.value)[0]) ? 10 : Number(Object.values(card.value))
+    if (card.hidden === false && Object.values(card.value)[0] !== "A") {
+      total += letters.includes(Object.values(card.value)[0])
+        ? 10
+        : Number(Object.values(card.value));
     }
   });
   const aces = cards.filter((card) => {
-    return Object.values(card.value)[0] === 'A';
+    return Object.values(card.value)[0] === "A";
   });
   aces.forEach((card) => {
     if (card.hidden === false) {
-      if ((total + 11) > 21) {
+      if (total + 11 > 21) {
         total += 1;
-      }
-      else if ((total + 11) === 21) {
+      } else if (total + 11 === 21) {
         if (aces.length > 1) {
           total += 1;
-        }
-        else {
+        } else {
           total += 11;
         }
-      }
-      else {
+      } else {
         total += 11;
       }
     }
   });
-  return total
-}
+  return total;
+};
 
 export const cardValues = [
   "A",

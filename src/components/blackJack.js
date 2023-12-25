@@ -17,12 +17,12 @@ const BlackJack = () => {
   const shuffleCards = () => {
     setFullDeck(fullDeck.sort(() => Math.random() - 0.5));
   };
-  
+
   const dealCard = (dealType) => {
     if (fullDeck.length > 0) {
       const randomIndex = Math.floor(Math.random() * fullDeck.length);
       const card = fullDeck[randomIndex];
-      const faceValue = Constants.faceValues(Object.values(card)[0])
+      const faceValue = Constants.faceValues(Object.values(card)[0]);
 
       fullDeck.splice(randomIndex, 1);
       setFullDeck([...fullDeck]);
@@ -49,17 +49,16 @@ const BlackJack = () => {
   };
 
   useEffect(() => {
-    setPlayerCount(Constants.totalValues(playerCards))
+    setPlayerCount(Constants.totalValues(playerCards));
   }, [playerCards]);
 
   useEffect(() => {
-    setDealerCount(Constants.totalValues(dealerCards))
+    setDealerCount(Constants.totalValues(dealerCards));
   }, [dealerCards]);
 
-
   const hit = () => {
-    dealCard('player')
-  }
+    dealCard("player");
+  };
 
   useEffect(() => {
     if (gameState === "init") {
